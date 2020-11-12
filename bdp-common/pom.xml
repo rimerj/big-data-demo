@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>demo</artifactId>
+        <groupId>com.bhp.dp.demo</groupId>
+        <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>bdp-common</artifactId>
+
+        <dependencies>
+            <!-- Test dependencies -->
+            <dependency>
+                <groupId>org.scalatest</groupId>
+                <artifactId>scalatest_${scala-major-version}.${scala-minor-version}</artifactId>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.scalatestplus</groupId>
+                <artifactId>junit-4-12_${scala-major-version}.${scala-minor-version}</artifactId>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- Logging -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-core</artifactId>
+            </dependency>
+
+            <!-- Scala -->
+            <!-- https://mvnrepository.com/artifact/org.scala-lang.modules/scala-java8-compat -->
+		
+            <dependency>
+                <groupId>org.scala-lang</groupId>
+                <artifactId>scalap</artifactId>
+				<scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.scala-lang</groupId>
+                <artifactId>scala-compiler</artifactId>
+				<scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.scala-lang</groupId>
+                <artifactId>scala-library</artifactId>
+				<scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.scala-lang</groupId>
+                <artifactId>scala-reflect</artifactId>
+				<scope>provided</scope>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-hive -->
+            <dependency>
+                <groupId>org.apache.spark</groupId>
+                <artifactId>spark-hive_2.12</artifactId>
+                <scope>provided</scope>
+            </dependency>
+			
+            <!-- spark dependencies -->
+            <dependency>
+                <groupId>org.apache.spark</groupId>
+                <artifactId>spark-core_${scala-major-version}.${scala-minor-version}</artifactId>
+                <scope>provided</scope>
+                <exclusions>
+                    <!-- repackaged in org.glassish.hk2 -->
+                    <exclusion>
+                        <artifactId>javax.inject</artifactId>
+                        <groupId>javax.inject</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>aopalliance</artifactId>
+                        <groupId>aopalliance</groupId>
+                    </exclusion>
+
+                    <!-- repackaged in logback-classic -->
+                    <exclusion>
+                        <artifactId>slf4j-log4j12</artifactId>
+                        <groupId>org.slf4j</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>zookeeper</artifactId>
+                        <groupId>org.apache.zookeeper</groupId>
+                    </exclusion>
+
+                    <!-- unused -->
+                    <exclusion>
+                        <artifactId>unused</artifactId>
+                        <groupId>org.spark-project.spark</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.spark</groupId>
+                <artifactId>spark-sql_${scala-major-version}.${scala-minor-version}</artifactId>
+                <scope>provided</scope> 
+                <exclusions>
+                    <!-- repackaged in logback-classic -->
+                    <exclusion>
+                        <artifactId>slf4j-log4j12</artifactId>
+                        <groupId>org.slf4j</groupId>
+                    </exclusion>
+
+                    <exclusion>
+                        <artifactId>parquet-hadoop-bundle</artifactId>
+                        <groupId>com.twitter</groupId>
+                    </exclusion>
+
+                    <!-- unused -->
+                    <exclusion>
+                        <artifactId>unused</artifactId>
+                        <groupId>org.spark-project.spark</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>uk.co.gresearch.spark</groupId>
+                <artifactId>spark-extension_${scala-major-version}.${scala-minor-version}</artifactId>
+            </dependency>
+
+        </dependencies>	
+		
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>		
+</project>

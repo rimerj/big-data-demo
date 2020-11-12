@@ -1,0 +1,36 @@
+facility_address_line1
+  v5
+    facility_address_line1  
+    facility_address_line_1
+  v6
+    facility_address
+    facility_address1
+    facility_address_line1
+
+facility_address_line2
+  v5
+    facility_address_line2
+    facility_address_line_2
+  v6
+    facility_address_line2
+
+facility_name_dba
+  v5
+    facility_name
+    facility_name_dba
+  v6
+    facility_name_dba
+
+mailing_address_line1
+  v5
+    mailing_address_1
+    mailing_address_line1
+    mailing_address_line_1
+
+organization_name
+  v5
+    organization_name
+  v6
+    organization_name
+    organization_name__legal_entity_
+

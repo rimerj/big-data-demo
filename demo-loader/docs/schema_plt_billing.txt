@@ -1,0 +1,31 @@
+entity_type_code (1 = professional, 2 = facility)
+plt_npi
+tpid
+fk_practice_golden_address_id
+tin
+tin_type  (from "professional" file would be 'provider' or 'practice' from the same row, from "facility" would be 'practice')
+billing_email_address
+billing_fax
+billing_phone
+fk_claim_remit_golden_address_id
+fk_claim_remit_legacy_ulid
+fk_claim_remit_crosswalk_address
+claim_remit_address_line1
+claim_remit_address_line2
+claim_remit_city
+claim_remit_name
+claim_remit_state
+claim_remit_zip_code
+meta_time_folder
+meta_modtime
+meta_file_type
+meta_file_path
+meta_file_name
+iops_roster_format
+iops_trading_partner_id
+iops_roster_type
+iops_roster_format
+iops_provider_credentialing_method
+iops_request_create_datetime
+
+Primary Key nk_plbt = plt_npi + tpid + fk_practice_golden_address_id + tin

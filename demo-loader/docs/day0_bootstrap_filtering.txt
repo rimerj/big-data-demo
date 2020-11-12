@@ -1,0 +1,101 @@
+println("Filtering out NPI's in bootstrap that already exists in ODS 2.0")
+
+val df = spark.read.format("parquet").load("/mnt/ods/bdp_2020_09_27a_coalesced/plt.parquet")
+df.createOrReplaceTempView("plt")
+
+val dffac = spark.read.format("csv").option("delimiter","|").option("header", "true").option("nullValue", "defaultvalue").load("/mnt/ods/ods_bootstrap/facilities_bootstrap_from_ods_20200926a.csv.bz2");
+dffac.createOrReplaceTempView("ods_bootstrap_facilities_source");
+val dfpro = spark.read.format("csv").option("delimiter","|").option("header", "true").option("nullValue", "defaultvalue").load("/mnt/ods/ods_bootstrap/professionals_bootstrap_from_ods_20200926a.csv.bz2");
+dfpro.createOrReplaceTempView("ods_bootstrap_professionals_source");
+
+println("fac full : "+dffac.count())
+println("pro full : "+dfpro.count())
+
+
+val dffacFiltered=spark.sql("select * from ods_bootstrap_facilities_source where `Practice NPI` NOT IN (select distinct (plt_npi) from plt where meta_time_folder <> '20170101T000000000')")
+val dfproFiltered=spark.sql("select * from ods_bootstrap_professionals_source where `Provider NPI #` NOT IN (select distinct (plt_npi) from plt where meta_time_folder <> '20170101T000000000')")
+
+println("fac filtered left: "+dffacFiltered.count())
+println("pro filtered left: "+dfproFiltered.count())
+
+println("writing fac_filtered")
+dffacFiltered.coalesce(1).write.mode(SaveMode.Overwrite).option("delimiter","|").option("compression", "bzip2").option("header", "true").csv("/mnt/ods/ods_bootstrap/facilities_bootstrap_from_ods_20200926a_filtered.csv.bz2")
+println("writing pro_filtered")
+dfproFiltered.coalesce(1).write.mode(SaveMode.Overwrite).option("delimiter","|").option("compression", "bzip2").option("header", "true").csv("/mnt/ods/ods_bootstrap/professionals_bootstrap_from_ods_20200926a_filtered.csv.bz2")
+
+/**
+results on 9/27/2020 7:24 PM - ran by Zheng Zhu
+Filtering out NPI's in bootstrap that already exists in ODS 2.0
+fac start : 24339
+pro start : 965246
+fac filtered left: 3996
+pro filtered left: 74305
+writing fac_filtered
+writing pro_filtered
+*/
+
+
+LEFT ANTI JOIN produces different results
+
+
+println("Filtering out NPI's in bootstrap that already exists in ODS 2.0")
+
+val df = spark.read.format("parquet").load("/mnt/ods/bdp_2020_09_27a_coalesced/plt.parquet")
+df.createOrReplaceTempView("plt")
+
+val dffac = spark.read.format("csv").option("delimiter","|").option("header", "true").option("nullValue", "defaultvalue").load("/mnt/ods/ods_bootstrap/facilities_bootstrap_from_ods_20200926a.csv.bz2");
+dffac.createOrReplaceTempView("ods_bootstrap_facilities_source");
+val dfpro = spark.read.format("csv").option("delimiter","|").option("header", "true").option("nullValue", "defaultvalue").load("/mnt/ods/ods_bootstrap/professionals_bootstrap_from_ods_20200926a.csv.bz2");
+dfpro.createOrReplaceTempView("ods_bootstrap_professionals_source");
+
+//println("fac full : "+dffac.count())
+//println("pro full : "+dfpro.count())
+
+
+// NOT IN
+//val dffacFilteredA=spark.sql("select * from ods_bootstrap_facilities_source where `Practice NPI` NOT IN (select distinct (plt_npi) from plt where meta_time_folder <> '20170101T000000000')").cache()
+//println("fac NOT IN filtered left: "+dffacFilteredA.count())
+
+//val dffacFiltered=spark.sql("select * from ods_bootstrap_facilities_source where  "+
+//                            "NOT EXISTS (select 1 from plt where meta_time_folder <> '20170101T000000000' and plt.plt_npi=ods_bootstrap_facilities_source.`Practice NPI`)").cache()
+//val dfproFiltered=spark.sql("select * from ods_bootstrap_professionals_source where "+
+//                            " NOT EXISTS (select 1 from plt where meta_time_folder <> '20170101T000000000' and plt.plt_npi=ods_bootstrap_professionals_source.`Provider NPI #`)").cache()
+
+val dffacFiltered=spark.sql("select * from ods_bootstrap_facilities_source left anti join  "+
+                            "  (select distinct(plt_npi) FROM plt where plt.meta_time_folder <> '20170101T000000000') p on p.plt_npi=ods_bootstrap_facilities_source.`Practice NPI`").cache()
+
+val dfproFiltered=spark.sql("select * from ods_bootstrap_professionals_source left anti join "+
+                            "  (select distinct(plt_npi) FROM plt where plt.meta_time_folder <> '20170101T000000000') p on p.plt_npi=ods_bootstrap_professionals_source.`Provider NPI #`").cache()
+
+println("fac filtered left: "+dffacFiltered.count())
+println("pro filtered left: "+dfproFiltered.count())
+
+println("writing fac_filtered")
+dffacFiltered.coalesce(1).write.mode(SaveMode.Overwrite).option("delimiter","|").option("compression", "bzip2").option("header", "true").csv("/mnt/ods/ods_bootstrap/facilities_bootstrap_from_ods_20200926a_filtered.csv.bz2")
+println("writing pro_filtered")
+dfproFiltered.coalesce(1).write.mode(SaveMode.Overwrite).option("delimiter","|").option("compression", "bzip2").option("header", "true").csv("/mnt/ods/ods_bootstrap/professionals_bootstrap_from_ods_20200926a_filtered.csv.bz2")
+
+/**
+results on 9/27/2020 7:24 PM - ran by Zheng Zhu
+Filtering out NPI's in bootstrap that already exists in ODS 2.0
+fac start : 24339
+pro start : 965246
+fac filtered left: 3996
+pro filtered left: 74305
+writing fac_filtered
+writing pro_filtered
+*/
+/*
+results on on 9/27/2020 11:32 PM - ran by Zheng  (why is it different??)
+Filtering out NPI's in bootstrap that already exists in ODS 2.0
+fac filtered left: 4041
+pro filtered left: 75764
+writing fac_filtered
+writing pro_filtered
+df: org.apache.spark.sql.DataFrame = [plt_npi: string, provider_npi: string ... 99 more fields]
+dffac: org.apache.spark.sql.DataFrame = [PLBT_key: string, Organization Name: string ... 81 more fields]
+dfpro: org.apache.spark.sql.DataFrame = [PLBT_key: string, First Name: string ... 86 more fields]
+dffacFiltered: org.apache.spark.sql.Dataset[org.apache.spark.sql.Row] = [PLBT_key: string, Organization Name: string ... 81 more fields]
+dfproFiltered: org.apache.spark.sql.Dataset[org.apache.spark.sql.Row] = [PLBT_key: string, First Name: string ... 86 more fields]
+*/
+

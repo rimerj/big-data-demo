@@ -1,0 +1,61 @@
+
+Union
+
+billing_fax
+billing_phone
+claim_remit_address_line1
+claim_remit_address_line2
+claim_remit_city
+claim_remit_name
+claim_remit_state
+claim_remit_zip_code
+clinical_staff_language_spoken_1
+clinical_staff_language_spoken_2
+clinical_staff_language_spoken_3
+-- comments
+end_date
+--npes
+--nppes  (npes_address in professionalv6 in addition)
+organization_name
+--pdt_recommendation
+--pdt_recommendations
+--provider_website
+--representative_email  (representative_name in facilityv6 in addition)
+--row
+--run_id
+--smarty_streets
+-ss
+start_date
+--trading_partner_id
+--website_verification
+emr_type
+emr_version
+hide_in_directory
+ecp_provider
+fee_schedule
+
+Make 2 fields or one field?
+ (|-- fee_schedule_type:  in facility v6?  professionalv6 has no fee_schedule)
+  (facility_v5 has lis_emr_type and lis_emr_version in addition)
+
+
+
+Should these merge?
+facility_name, facility_name_dba, 
+practice_name, practice_name_dba
+Not merging
+
+practice_county and facility_county
+facilty_telephone and practice_telephone
+facility_fax and practice_fax
+
+manager and manager_email in facility with pratice_billing_manager and practice_manager_email_address
+
+--facilityv6 - network and profrassionalv6 - network_name
+
+
+That Leaves
+facility_clia: string (nullable = true)
+--facility_clia_expiration: string (nullable = true)
+facility_type: string (nullable = true)
+

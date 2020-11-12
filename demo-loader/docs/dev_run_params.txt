@@ -1,0 +1,21 @@
+spark-submit --num-executors 4 --executor-cores 16 --conf "spark.default.parallelism=64" --conf "spark.driver.cores=16" --conf "spark.driver.memory=46g" --conf "spark.driver.maxResultSize=32g" --conf "spark.executor.cores=15" --conf "spark.executor.memory=46g" --conf "spark.kryo.unsafe=true" --conf "spark.serializer=org.apache.spark.serializer.KryoSerializer" --conf "spark.hadoop.mapreduce.fileoutputcommitter.algorithm.version=2" --conf "spark.serializer.objectStreamReset=-1" --conf "spark.broadcast.compress=false" --conf "spark.rdd.compress=false" --conf "spark.shuffle.compress=false"  --conf "spark.sql.inMemoryColumnarStorage.compressed=false" --class com.bhp.dp.provider.ProviderLoader target\bdp-1.0-SNAPSHOT-jar-with-dependencies.jar -build_name "20201003small" -source_path "/mnt/billing/GDP001/runlog/CP10006a/" -target_path "/mnt/ods2/bdp_test_output/20201003small/" -iops_path "/mnt/integrationops/20200918/" -nppes_path "/mnt/ods2/nppes/ -20200913.parquet/" -medicaid_path "/mnt/ods2/medicaid/medicaid-20200922.parquet" -ods1_bootstrap_pro_file "/mnt/ods2/ods_bootstrap/professionals_bootstrap_from_ods_20200926a_small.csv.bz2" -ods1_bootstrap_fac_file "/mnt/ods2/ods_bootstrap/facilities_bootstrap_from_ods_20200926a_small.csv.bz2" -sharepoint_path "/mnt/ods2/sharepoint/" -do_smarty "1"  -do_hive "0" -hive_output_path "./test_output/ods2/bdp_hive/" -do_csv "0" -csv_output_path "./test_output/ods2/bdp_csv/" -do_jdbc "0" -jdbc_url "jdbc:sqlserver://brightoltp-prod.public.25032192a28f.database.windows.net:3342;database=20201003small;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.25032192a28f.database.windows.net;loginTimeout=30;" -provider_finder_path "/mnt/ods2/provider-test/"
+
+
+DB cluster config
+spark.broadcast.compress false
+spark.serializer org.apache.spark.serializer.KryoSerializer
+spark.databricks.delta.preview.enabled true
+spark.serializer.objectStreamReset -1
+spark.kryo.unsafe true
+spark.shuffle.compress false
+spark.executor.cores 16
+spark.executor.memory 39g
+spark.driver.maxResultSize 32g
+spark.rdd.compress false
+spark.sql.inMemoryColumnarStorage.compressed false
+spark.hadoop.mapreduce.fileoutputcommitter.algorithm.version 2
+spark.driver.memory 39g
+spark.default.parallelism 64
+spark.driver.cores 16
+
+-commit 1234567 -build_name 20201003small4 -source_path /mnt/billing/GDP001/runlog/CP10006a/ -target_path /mnt/ods2/bdp_output/20201003small4/ -source_cache_append_path /mnt/ods2/bdp_output/cache_small/ -iops_path /mnt/integrationops/20200918/ -nppes_path "/mnt/ods2/nppes/ -20200913.parquet/" -medicaid_path /mnt/ods2/medicaid/medicaid-20200922.parquet -ods1_bootstrap_pro_file /mnt/ods2/ods_bootstrap/professionals_bootstrap_from_ods_20200926a_small.csv.bz2 -ods1_bootstrap_fac_file /mnt/ods2/ods_bootstrap/facilities_bootstrap_from_ods_20200926a_small.csv.bz2 -sharepoint_path /mnt/ods2/sharepoint/ -do_smarty 1 -do_hive 0 -hive_output_path ./test_output/ods2/bdp_hive/ -do_csv 0 -csv_output_path ./test_output/ods2/bdp_csv/ -do_jdbc 0 -jdbc_url jdbc:sqlserver://brightoltp-prod.public.25032192a28f.database.windows.net:3342;database=20201003small;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.25032192a28f.database.windows.net;loginTimeout=30; -provider_finder_path /mnt/ods2/provider-test/

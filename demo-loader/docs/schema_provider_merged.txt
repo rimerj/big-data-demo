@@ -1,0 +1,24 @@
+plbt key columns
+
+provider				professional			facility
+plbt_npi				provider_npi			practice_npi      (both denormalized fields will exist still, provider_npi and practice_npi)
+fk_practice_golden_address_id      	fk_practice_golden_address_id	fk_facility_golden_address_id
+fk_practice_crosswalk_address       	fk_practice_crosswalk_address	fk_facility_crosswalk_address
+practice_address_line1  		practice_address_line1  	facility_address_line1  (facility address denormalized into practice address, one set of fields)
+practice_address_line2  		practice_address_line2  	facility_address_line2
+practice_city  				practice_city  			facility_city
+practice_state  			practice_state  		facility_state
+practice_zip_code 			practice_zip_code  		facility_zip_code
+master_profile				master_profile			master_profile
+plbt_tin				tin				tin               (denormalized practice_tin field and provider_tin )
+
+nk_plbt = plbt_npi ## fk_practice_golden_address_id ## master_profile ## tin
+
+add provider_cateogry 'facility' and 'professional'
+
+
+-- remove columns with starting num
+-- ADD combine claim_remite address fields, end_date
+
+All other fields are conglomerates
+

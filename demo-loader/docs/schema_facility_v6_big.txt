@@ -1,0 +1,78 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+|-- comm___individual_product_medicare_payable_fee_schedule: string (nullable = true)
+ |-- comments: string (nullable = true)
+ |-- end_date: string (nullable = true)
+ |-- error_date__utc_time_: string (nullable = true)
+ |-- error_message: string (nullable = true)
+ |-- facility_address: string (nullable = true)
+ |-- facility_address1: string (nullable = true)
+ |-- facility_address_line1: string (nullable = true)
+ |-- facility_address_line2: string (nullable = true)
+ |-- facility_city: string (nullable = true)
+ |-- facility_fax: string (nullable = true)
+ |-- facility_name__dba_: string (nullable = true)
+ |-- facility_state: string (nullable = true)
+ |-- facility_telephone: string (nullable = true)
+ |-- facility_type: string (nullable = true)
+ |-- facility_zip_code: string (nullable = true)
+ |-- fee_schedule_type: string (nullable = true)
+ |-- google: string (nullable = true)
+ |-- google_search: string (nullable = true)
+ |-- manager: string (nullable = true)
+ |-- manager_email: string (nullable = true)
+ |-- medicaid_product_medicaid_fee_schedule: string (nullable = true)
+ |-- medicare_product_medicare_payable_fee_schedule: string (nullable = true)
+ |-- mobile: string (nullable = true)
+ |-- network: string (nullable = true)
+ |-- notes: string (nullable = true)
+ |-- npes: string (nullable = true)
+ |-- nppes: string (nullable = true)
+ |-- organization_name: string (nullable = true)
+ |-- organization_name__legal_entity_: string (nullable = true)
+ |-- pdt_recommendation: string (nullable = true)
+ |-- pdt_recommendations: string (nullable = true)
+ |-- practice_npi: string (nullable = true)
+ |-- provider_website: string (nullable = true)
+ |-- re_add: string (nullable = true)
+ |-- representative_email: string (nullable = true)
+ |-- representative_name: string (nullable = true)
+ |-- row: string (nullable = true)
+ |-- runid: string (nullable = true)
+ |-- smarty_streets: string (nullable = true)
+ |-- ss: string (nullable = true)
+ |-- start_date: string (nullable = true)
+ |-- tin: string (nullable = true)
+ |-- trading_partner_id: string (nullable = true)
+ |-- unnamed_13: string (nullable = true)
+ |-- unnamed_17: string (nullable = true)
+ |-- website_verification: string (nullable = true)
+ |-- filename: string (nullable = true)
+ |-- iops_roster_format: string (nullable = true)
+ |-- iops_trading_partner_id: string (nullable = true)
+ |-- iops_roster_type: string (nullable = true)
+ |-- iops_provider_credentialing_method: string (nullable = true)
+ |-- iops_request_create_datetime: string (nullable = true)
+ |-- iops_data_factory_execution_status: string (nullable = true)
+ |-- iops_data_factory_execution_message: string (nullable = true)
+ |-- iops_data_factory_pipeline_run_id: string (nullable = true)
+ |-- filepath: string (nullable = true)
+ |-- hc: integer (nullable = true)
+ |-- modtime: long (nullable = true)
+ |-- time_folder: string (nullable = true)
+ |-- master_profile: string (nullable = true)

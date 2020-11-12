@@ -1,0 +1,17 @@
+//dbutils.fs.help()
+for (x <- dbutils.fs.mounts ) {
+  println("\nsource: "+x.source)
+  println("mountPoint: "+x.mountPoint)
+ // println("extractConfigs: "+x.extractConfigs)
+//  dbutils.fs.mount( source = "adl://<datalake_name>.azuredatalakestore.net/<directory>", mountPoint = s"/mnt/<directory>", extraConfigs = configs)  
+  
+}
+
+dbutils.fs.mount(
+  source = "wasbs://global-data-pipelines@rosteringestprd.blob.core.windows.net",
+  mountPoint = "/mnt/billing",
+  extraConfigs = Map("fs.azure.account.key.rosteringestprd.blob.core.windows.net" -> "key" ))
+
+// unmount
+//dbutils.fs.unmount("/mnt/billing")
+

@@ -1,0 +1,30 @@
+
+    /*
+    //
+    // full java Threads based implementation that relies on the spark scheduler to do the scheduling
+    // doesn't seem to work that well
+    //
+    //
+    //val count = ProviderLoader.filesList.size + 1
+    // val result = Future.traverse(ProviderLoader.filesList)
+    val threads=new Array[Thread](ProviderLoader.filesList.size)
+    val runners=new Array[LoadDataRunner](ProviderLoader.filesList.size)
+    var count=0
+    val startThreads=System.currentTimeMillis
+    println("\n\n\nStart ("+threads.length+") threads at: "+new Date+"\n\n\n")
+    for (providerFile <- ProviderLoader.filesList) {
+      runners(count)=new LoadDataRunner(sparkSession, providerFile, rosterRunRequestMap, count)
+      threads(count)=new Thread(runners(count))
+      threads(count).start
+      count = count + 1
+     }
+     for (i <- 0 to runners.length-1) {
+       threads(i).join
+       val e=runners(i).e
+       if (e != null) {
+         println("Bad exception loading data on runner("+i+"): " + runners(i).providerFile.fullPath + " e: " + e)
+         e.printStackTrace()
+       }
+     }
+    println("\n\n\nFinished "+threads.length+" threads at: "+new Date+" total secs: "+(System.currentTimeMillis-startThreads)/1000+"\n\n\n")
+*/
