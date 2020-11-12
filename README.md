@@ -88,9 +88,6 @@ This with do a mvn package which:
 ### Windows
 buildrun.bat
 
-### Linux/UNIX/Mac
-./buildrun.sh  
-
 ### Debug
 
 Use Intellij IDEA's Debugger
