@@ -3,13 +3,15 @@ import java.io._
 
 import com.bhp.dp.demo.models.static_input_model
 import com.bhp.dp.demo.sources.DemoSources
+import org.apache.spark.sql.expressions.Window
+import org.apache.spark.sql.functions._
 import org.apache.spark.sql.{DataFrame, Dataset, SaveMode, SparkSession}
 
 
 object DemoLoader extends Serializable {
   final def main(args: Array[String]): Unit = {
     val runConfig = new DemoLoaderArgs(args, localRun)
-    val writeDestination: String = "/mnt/ods2p/demo/demo_output.parquet"
+    val writeDestination: String = s"${runConfig.TargetPath}demo_loader_output.parquet"
     val spark = establishSparkSesh
 
     // LOAD INPUTS
@@ -20,19 +22,20 @@ object DemoLoader extends Serializable {
     val resultDf = etl(spark, demoDf, staticDf)
 
     // GENERATE OUTPUT FROM SPECIFICATION
-    writeParquet(resultDf, s"${runConfig.TargetPath}writeDestination")
+    writeParquet(resultDf, writeDestination)
   }
-
 
   def etl(sparkSession: SparkSession, demo: DataFrame, staticDf: Dataset[static_input_model]): DataFrame = {
     import sparkSession.implicits._
 
     demo.as("d")
+      .where($"tin" > lit(0))
       .join(staticDf.as("s"), $"d.npi" === $"s.string_field", "inner")
       .select(
         $"s.string_field".as("pk_col"),
         $"s.integer_field".as("static_int_field"),
-        $"s.date_field".as("a_date")
+        $"s.date_field".as("a_date"),
+        row_number.over(Window.partitionBy($"d.npi").orderBy($"d.tin")).as("tin_order_by_npi")
       )
   }
 
@@ -48,5 +51,8 @@ object DemoLoader extends Serializable {
     osString.contains("WINDOWS") || osString.contains("MACOS")
   }
 
-  def writeParquet(df: DataFrame, location: String): Unit = df.write.mode(SaveMode.Overwrite).parquet(location)
+  def writeParquet(df: DataFrame, location: String): Unit = {
+    println(s" === Writing $location")
+    df.write.mode(SaveMode.Overwrite).parquet(location)
+  }
 }

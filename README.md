@@ -1,14 +1,6 @@
-## data-platform-bdp
+## Big Data Demo
 
-Bright Data Platform (Spark 3 / Scala / Java 8)  - Formerly ODS
-
-### Table of Contents
-- [System Requirements](#system-requirements)
-- [Installation](#installation)
-- [How to Run/Debug this project](#run-debug)
-- [How to Run/Debug this project](#run-debug)
-- [Content folders](#content_folders)
-- [Bright Data Puddle Provider Loader Logic](#provider-logic)
+Big Data Demo (Spark 3 / Scala / Java 8)  
 
 ### System Requirements
 In general, Spark is going to be both CPU and memory bound.  This is both true for running the job via spark-submit, or running Scala unit tests.   Also, the Scala compiler is a beast in terms of CPU and memory hog.  The Intellij IDEA As such, the more cores and more memory you have, the better off your development experience will be:
@@ -56,10 +48,10 @@ Java 8 SDK (alternate installation for JDK - for Work, do not install version ab
    You should get a spark shell interpreter running
 
 ### Hadoop Winutils binaries
+
 1.  I recommend using the attached zip in the slack channel: https://brighthealthplan.slack.com/files/U015DTD4LP9/F017QEMB6D8/hadoop-winutils.zip
 1.  unzip to c:\hadoop (or folder of your choice)
 1.  copy the winutils.exe from this bin folder to your **spark\bin**  directory
-
 
 ### SQL Server Support for Spark (optional)
 
@@ -68,6 +60,7 @@ Java 8 SDK (alternate installation for JDK - for Work, do not install version ab
 1.  Find **mssql-jdbc-8.2.2.jre8.jar**, and ut that file into your SPARK_HOME/jars directory
 
 ### Zeppelin installation
+
 1.  On native windows, currently Zeppelin-0.9.0-preview doesn't work quite right. :-()
 2.  Goto https://zeppelin.apache.org/download.html
 1.  Follow instructions on website for download, unzip, and run.
@@ -106,57 +99,6 @@ Make sure to check the option in (Run Configurations):
 **"Include Dependencies with Provided Scope"**
 
 The maven build pom.xml has all Scala and Spark dependencies declared as "provided", which makes resulting binary super lean and small, but this means when you debug, you have to tell the IDE to included it from elsewhere.
-
-### content folders
-day0/ - some configurations/lookups - e.g. Master Profile exports.  These have already been integrated into resources - To Be deleted
-docs/  - some useful roster formats
-mnt/   - sample test files, much smaller than production files, cleansed
-src/   - the maven structured source tree.  For more details, see Maven documentation
-target/ - the maven target output dir for build binaries (not revision controlled)
-test_output/ - the final/stage 2 output folder for parquet that BDP generates  (not revision controlled)
-test_output_ingest/ - the other stage 1 output folder for parquet that BDP generates (not revision controlled)
-
-
-
-## provider-logic
-
-## Overview
-* entry point is: rebuildEverything()
-* Load IntegrationOps.pdm.rosterRunRequest into DataFrame
-* Load NPPES.nppes.npidata_pfile into DataFrame
-* Collect all roster files in rootDirectory (recursive) and professionals bootstrap file from ODS and failities bootstrap file from ODS and:
-    * Dynamically sort the rosters into V5, V6, etc. based on file name and column headers
-    * Derive superset of columns per roster type
-* Register data cleansing UDF(s):
-    * Clean gender
-    * Clean TIN
-    * Clean NPI
-    * and more...
-* Iterate over all files:
-    * Load file into DataFrame
-    * Append new column names into DataFrame where new_col_name = udf(old_col_name) where udf is a cleansing udf, if applicable
-    * Drop columns we don't care about
-    * Add missing columns we're expecting
-    * Sort columns alphabetically
-    * Save the DataFrame as a compressed parquet file
-* Coalesce saved partitioned parquet files and save as professional.parquet and facility.parquet
-* Load singular professional/facility parquet files into DataFrame(s)
-* Build dynamic spark sql to `SELECT ... FROM professional UNION SELECT ... FROM facility` the result into DataFrame plt_super
-* Save as plt_super.parquet
-* _something about filtering bootstrap time???_
-* For every record in plt_super:
-     * Add practice address, mailing address, claim remit address to crosswalk_address DataFrame and save nk <-> fk
-* Augment crosswalk_address with SmartyStreets data to get lat, long, county
-* Save as crosswalk_address.parquet
-* Dedupe plt_all by npi, tpid, and golden_address_id and save as plt_latest.parquet
-* Dedupe plt_billing_all by npi, tpid, golden_address_id, tin, ti_type and save as plt_billing_latest.parquet
-* Augment plt_latest with nppes data:
-    * Deactivation date
-    * Taxonomy
-    * and more...
-* create new plt
-* join in stuff to plt
-* create dynamic networks
 
 ### More Resources
 - https://spark.apache.org/docs/latest/quick-start.html
