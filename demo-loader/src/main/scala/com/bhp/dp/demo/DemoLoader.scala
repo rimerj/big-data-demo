@@ -18,7 +18,7 @@ object DemoLoader extends Serializable {
     val spark = establishSparkSesh
 
     // LOAD INPUTS
-    val demoDf = DemoSources.loadDemoInput(spark)
+    val demoDf = DemoSources.loadDemoInput(spark, runConfig.LocalRun)
     val staticDf = DemoSources.loadStaticInput(spark)
 
     // SPECIFY OUTPUT

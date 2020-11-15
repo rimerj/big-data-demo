@@ -4,8 +4,10 @@ import com.bhp.dp.demo.models.static_input_model
 import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
 
 object DemoSources {
-  def loadDemoInput(sparkSession: SparkSession): DataFrame =
-    sparkSession.read.parquet("/mnt/ods2p/demo/demo_input.parquet")
+  def loadDemoInput(sparkSession: SparkSession, isLocal: Boolean): DataFrame = {
+    val local = if (isLocal) "." else ""
+    sparkSession.read.parquet(s"$local/mnt/ods2p/demo/demo_input.parquet")
+  }
 
   def loadStaticInput(sparkSession: SparkSession): Dataset[static_input_model] = {
     import sparkSession.implicits._
