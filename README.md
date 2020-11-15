@@ -3,7 +3,9 @@
 Big Data Demo (Spark 3 / Scala / Java 8)  
 
 ### System Requirements
-In general, Spark is going to be both CPU and memory bound.  This is both true for running the job via spark-submit, or running Scala unit tests.   Also, the Scala compiler is a beast in terms of CPU and memory hog.  The Intellij IDEA As such, the more cores and more memory you have, the better off your development experience will be:
+In general, Spark is going to be both CPU and memory bound.  This is both true for running the job via spark-submit, 
+or running Scala unit tests.   Also, the Scala compiler is a beast in terms of CPU and memory hog.  
+The Intellij IDEA As such, the more cores and more memory you have, the better off your development experience will be:
 Ideal:  **64GB RAM,  8+ cores / 16T, with SSD for storage**
 Medium: **32GB RAM,  4 cores / 8T, SSD**
 Minimum:   16GB RAM, 4 cores / 4T
@@ -16,6 +18,7 @@ Masochist:   8GB RAM, 4 cores  <- this is highly unlikely to run or compile
 access) 
 - *Optional*   Zeppelin 0.9 preview (for interactive testing of Spark using Scala - not stable, but 0.8.2 doesn't support Spark 3)
 - *Optional*   Install Jupyter (TBD) 
+Set Environment Variable 
 
 ### Installation
 
@@ -86,10 +89,9 @@ This with do a mvn package which:
 5. runs spark submit on your built jar
 
 ### Windows
-buildrun.bat
+buildrun.bat from demo-loader module's root
 
 ### Debug
-
 Use Intellij IDEA's Debugger
 Make sure to check the option in (Run Configurations):
 

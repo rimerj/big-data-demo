@@ -10,8 +10,11 @@ import org.apache.spark.sql.{DataFrame, Dataset, SaveMode, SparkSession}
 
 object DemoLoader extends Serializable {
   final def main(args: Array[String]): Unit = {
+    // CONFIGURATION
     val runConfig = new DemoLoaderArgs(args, localRun)
     val writeDestination: String = s"${runConfig.TargetPath}demo_loader_output.parquet"
+
+    // SPARK SESSION
     val spark = establishSparkSesh
 
     // LOAD INPUTS
