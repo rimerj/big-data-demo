@@ -15,17 +15,23 @@ object DemoLoader extends Serializable {
     val writeDestination: String = s"${runConfig.TargetPath}demo_loader_output.parquet"
 
     // SPARK SESSION
+    println(" === Establishing Spark Session")
     val spark = establishSparkSesh
 
     // LOAD INPUTS
+    println(" === Loading inputs")
     val demoDf = DemoSources.loadDemoInput(spark, runConfig.LocalRun)
     val staticDf = DemoSources.loadStaticInput(spark)
 
     // SPECIFY OUTPUT
+    println(" === Planning ouput")
     val resultDf = etl(spark, demoDf, staticDf)
 
     // GENERATE OUTPUT FROM SPECIFICATION
+    println(" === Generating output")
     writeParquet(resultDf, writeDestination)
+
+    println(" +++ Process Complete")
   }
 
   def etl(sparkSession: SparkSession, demo: DataFrame, staticDf: Dataset[static_input_model]): DataFrame = {
